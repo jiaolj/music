@@ -81,11 +81,39 @@ section {
 					}
 				}
 			}
-			&.active {
+			.sdetail,.mdetail {
+				.dsn;.psr;
+				.close {
+					.r(10px);.fs(30px);.lh(30px);
+				}
+				dl {
+					.bd(lighten(@color,20%));.pd(6px);
+				}
+				.chart {
+					.bd(lighten(@color,20%));.pd(6px);.mgt(9px);.h(300px);.ofh;
+				}
+			}
+			&[s="1"] {
 				table {
 					.dsn;
 				}
 				.types {
+					.dsb;
+				}
+			}
+			&[s="2"] {
+				table {
+					.dsn;
+				}
+				.sdetail {
+					.dsb;
+				}
+			}
+			&[s="3"] {
+				table {
+					.dsn;
+				}
+				.mdetail {
 					.dsb;
 				}
 			}
@@ -105,7 +133,7 @@ section {
 	.rightbox {
 		.frt;.w(28%);.pd(1%);
 		.search {
-			.psr;.h(36px);.ofh;.bd(lighten(@color,30%));.br(9px);
+			.psr;.h(36px);.ofh;.bd(lighten(@color,10%));.br(9px);
 			img {
 				.h(26px);.psa;.r(6px);.t(5px);.csr;
 			}

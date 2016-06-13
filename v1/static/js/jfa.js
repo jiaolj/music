@@ -62,6 +62,10 @@ define(function(){
 						});
 					},
 					status : 0,
+					empty : function(){
+						_i.dom.empty();
+						_o.status = 0;
+					},
 					init : function(arg){
 						_o = this;
 						_i = arg;

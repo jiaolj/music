@@ -123,10 +123,46 @@ section .leftbox .cntbox .types dl dt a {
   border: 1px solid #3487d4;
   padding: 9px 12px;
 }
-section .leftbox .cntbox.active table {
+section .leftbox .cntbox .sdetail,
+section .leftbox .cntbox .mdetail {
+  display: none;
+  position: relative;
+}
+section .leftbox .cntbox .sdetail .close,
+section .leftbox .cntbox .mdetail .close {
+  right: 10px;
+  font-size: 30px;
+  line-height: 30px;
+}
+section .leftbox .cntbox .sdetail dl,
+section .leftbox .cntbox .mdetail dl {
+  border: 1px solid #88b9e6;
+  padding: 6px;
+}
+section .leftbox .cntbox .sdetail .chart,
+section .leftbox .cntbox .mdetail .chart {
+  border: 1px solid #88b9e6;
+  padding: 6px;
+  margin-top: 9px;
+  height: 300px;
+  overflow: hidden;
+}
+section .leftbox .cntbox[s="1"] table {
   display: none;
 }
-section .leftbox .cntbox.active .types {
+section .leftbox .cntbox[s="1"] .types {
+  display: block;
+}
+section .leftbox .cntbox[s="2"] table {
+  display: none;
+}
+section .leftbox .cntbox[s="2"] .sdetail {
+  display: block;
+}
+section .leftbox .cntbox[s="3"] table {
+  display: none;
+}
+section .leftbox .cntbox[s="3"] .mdetail {
   display: block;
 }
 section .leftbox.active nav.menus {
@@ -154,7 +190,7 @@ section .rightbox .search {
   position: relative;
   height: 36px;
   overflow: hidden;
-  border: 1px solid #b2d2ef;
+  border: 1px solid #5ea0dd;
   border-radius: 9px;
 }
 section .rightbox .search img {
