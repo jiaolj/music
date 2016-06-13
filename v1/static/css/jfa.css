@@ -113,3 +113,10 @@ table td {
 .jui-only-show.active .jui-show {
   display: block;
 }
+.jui-page a {
+  padding: 6px;
+  color: #999999;
+}
+.jui-page a.active {
+  color: #333333;
+}

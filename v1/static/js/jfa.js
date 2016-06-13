@@ -34,16 +34,17 @@ define(function(){
 				;
 				return {
 					getList : function(){
-						var pages = '',plist = [];
-						if(_i.page>(_o.pgl+1)){
-							for(var i = (_i.page-_o.pgl);i<(_i.page+_o.pgr);i++){
-								plist.push(i);
-							}
-						}else{
-							for(var i = 1;i<(_o.pgl+_o.pgr+1);i++){
-								plist.push(i);
-							}
+						var pages = '',
+							plist = [],
+							pgl = _i.page-_o.pgl,
+							pgr = _i.page+_o.pgr;
+						if(_i.page<=(_o.pgl+1)) pgr = _o.pgl+_o.pgr+1;
+						if(pgr>_i.allp+1) {
+							pgr = _i.allp+1;
+							pgl = _i.allp-6;
 						}
+						if(pgl<1) pgl = 1;
+						for(var i = pgl;i<pgr;i++) plist.push(i);
 						$.each(plist,function(k,j){
 							pages += '<a class="pg-num" p="'+j+'">'+j+'</a>';
 						})

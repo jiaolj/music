@@ -41,7 +41,9 @@ footer {
 		}
 	}
 }
-
+.pagelist {
+	.mgt(9px);.trt;
+}
 section {
 	.psa;.t(52px);.b(20px);.w;
 	img.bg{
@@ -53,16 +55,22 @@ section {
 			.flt;.dsn;
 		}
 		.cntbox {
-			.flt;.w;
+			.flt;.w;.h(460px);.ofa;
 			table {
 				.w;.tbbd(lighten(@color,30%));.lh(36px);
+				th {
+					.bg(lighten(@color,20%));.c(#fff);
+				}
 			}
 			.types {
 				.dsn;
 				dl {
-					.lh(30px);
+					.lh(60px);
 					dt {
 						.flt;.w(50%);.tct;
+						a {
+							.br(6px 0 6px 0);.bd(@color);.pd(9px 12px);
+						}
 					}
 				}
 			}

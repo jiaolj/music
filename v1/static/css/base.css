@@ -56,6 +56,10 @@ footer p {
 footer p a {
   color: #888888;
 }
+.pagelist {
+  margin-top: 9px;
+  text-align: right;
+}
 section {
   position: absolute;
   top: 52px;
@@ -81,6 +85,8 @@ section .leftbox nav.menus {
 section .leftbox .cntbox {
   float: left;
   width: 100%;
+  height: 460px;
+  overflow: auto;
 }
 section .leftbox .cntbox table {
   width: 100%;
@@ -92,16 +98,25 @@ section .leftbox .cntbox table th {
   border: solid #b2d2ef;
   border-width: 1px 1px 1px 0;
 }
+section .leftbox .cntbox table th {
+  background: #88b9e6;
+  color: #ffffff;
+}
 section .leftbox .cntbox .types {
   display: none;
 }
 section .leftbox .cntbox .types dl {
-  line-height: 30px;
+  line-height: 60px;
 }
 section .leftbox .cntbox .types dl dt {
   float: left;
   width: 50%;
   text-align: center;
+}
+section .leftbox .cntbox .types dl dt a {
+  border-radius: 6px 0 6px 0;
+  border: 1px solid #3487d4;
+  padding: 9px 12px;
 }
 section .leftbox .cntbox.active table {
   display: none;
