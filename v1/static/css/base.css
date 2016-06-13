@@ -99,8 +99,7 @@ section .leftbox .cntbox table th {
   border-width: 1px 1px 1px 0;
 }
 section .leftbox .cntbox table th {
-  background: #88b9e6;
-  color: #ffffff;
+  font-weight: 900;
 }
 section .leftbox .cntbox .types {
   display: none;
