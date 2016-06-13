@@ -38,6 +38,9 @@ header nav.user a {
   color: #ffffff;
   margin-left: 18px;
 }
+header nav.user span {
+  color: #ffffff;
+}
 header:after {
   clear: both;
 }

@@ -447,6 +447,56 @@ require(['jquery','base','jfa','echarts','cookie'], function($,Base,Jfa,ec) {
 					})
 				}
 			},
+			user : {
+				get : function(){
+					return {username:$.cookie('username'),rank:$.cookie('rank')}
+				},
+				member : [
+					{username:'udms',password:'udms',rank:'1'},
+					{username:'973',password:'973',rank:'0'}
+				],
+				show : function(suc){
+					if($.cookie('username')){
+						suc && suc();
+					}else{
+						Jfa.tools.login(function(){
+							var username = $('.msg.login input[name="username"]').val().trim(),
+								password = $('.msg.login input[name="password"]').val().trim();
+							$.each(_obj.user.member,function(k,j){
+								if(username==j.username && password==j.password){
+									$.cookie('username',username);
+									$.cookie('rank',j.rank);
+									Jfa.tools.alertLeave();
+									$('.msg.login p.error').text('登陆成功');
+									$('nav.user>span').text(username);
+									$('nav.user>a.login').text('注销');
+									$('nav.user>a.reg').text('');
+									$('.jui-login-box').removeClass('hide');
+									suc && suc();
+								}
+							})
+							if(!$.cookie('username')) $('.msg.login p.error').text('账号或密码错误');
+						});
+					}
+				}
+			},
+			bind : function(){
+				$('nav.user>a').click(function(){
+					var o = $(this),
+						txt = o.text();
+					if(txt=='登录'){
+						_obj.user.show();
+					}
+					else if(txt=='注销'){
+						$.cookie('username','');
+						$.cookie('rank','');
+						o.text('登录');
+						$('nav.user>a.reg').text('注册');
+						$('nav.user>span').text('');
+						$('.jui-login-box').addClass('hide');
+					}
+				})
+			},
 			init : function(){
 				_obj = this;
 				_obj.conf = {
@@ -533,6 +583,14 @@ require(['jquery','base','jfa','echarts','cookie'], function($,Base,Jfa,ec) {
 				Base.init();
 				_obj.req = Jfa.tools.getRequest();
 				_obj.query();
+				_obj.bind();
+				if($.cookie('username')){
+					$('nav.user>span').text($.cookie('username'));
+					$('nav.user>a').text('注销');
+				}else{
+					_obj.user.show();
+					$('.jui-login-box').addClass('hide');
+				};
 				$('a.close').click(function(){
 					$('.cntbox').attr('s','0');
 				})

@@ -1,4 +1,4 @@
-define(function(){
+define(['jquery','dom'],function($,Dom){
 	var Jfa = (function(){
 		var _obj = {};
 		return {
@@ -147,6 +147,16 @@ define(function(){
 					})
 				})
 			},
+			jui : {
+				alert : function(){
+					$('body').append('<div class="jui-alert" id="jui-alert"></div>');
+					return $('#jui-alert');
+				}(),
+				cover : function(){
+					$('body').append('<div class="jui-cover" id="jui-cover"></div>');
+					return $('#jui-cover');
+				}()
+			},
 			tools : {
 				getSize : function(p){
 					$('html').css('font-size',document.body.clientWidth*p+'px');
@@ -162,14 +172,99 @@ define(function(){
 						  }   
 					   }   
 					   return theRequest;   
-				}
+				},
+				alert : function(tp,msg){
+					var msg = msg || _obj.tools.alertDefault[tp].msg;
+					_obj.jui.alert.show().html(Dom.alert[tp].replace('#msg',msg)).css({top:'-'+_obj.jui.alert[0].clientHeight+'px'}).animate({top:_obj.tools.alertDefault[tp].top}).find('button').click(function(){
+						if(_obj.tools.alertDefault[tp].callback) _obj.tools.alertDefault[tp].callback();
+						else _obj.tools.alertLeave();
+					})
+					_obj.msg.alertMsg = _obj.tools.alertDefault[tp].leave;
+				},
+				alertDefault : {
+					'msg' : {'msg':'弹出消息',leave:3,top:'10%'},
+					'ok' : {'msg':'成功信息！',leave:3,top:'10%'},
+					'warn' : {'msg':'警告信息！',leave:3,top:'10%'},
+					'confirm' : {'msg':'确定要删除该行信息吗?',leave:-1,top:'0'},
+				},
+				alertLeave : function(){
+					_obj.jui.alert.animate({top:'-'+_obj.jui.alert[0].clientHeight+'px'},300,function(){
+						$(this).empty().hide();
+						_obj.jui.cover.hide();
+					})
+				},
+				login : function(suc){
+					_obj.jui.cover.show();
+					_obj.jui.alert.show().html(Dom.alert.login).css({top:'-'+_obj.jui.alert[0].clientHeight+'px'}).animate({top:'10%'},function(){
+						$(this).find('input[name="username"]').focus();
+					});
+					_obj.jui.alert.find('input[name="password"]').keypress(function(event) {
+						if (event.which == 13){
+							suc && suc();
+						}
+					});
+					_obj.jui.alert.find('a.checks').click(function(){
+						suc && suc();
+					})
+					_obj.jui.alert.find('a.closes').click(function(){
+						_obj.tools.alertLeave();
+					})
+				},
+				confirm : function(msg,suc){
+					_obj.jui.cover.show();
+					if(msg=='') msg = '确定要删除该信息吗?';
+					_obj.jui.alert.show().html(Dom.alert.confirm.replace('#msg',msg)).css({top:'-'+_obj.jui.alert[0].clientHeight+'px'}).animate({top:'0'}).find('button').click(function(){
+						var txt = $(this).attr('rel');
+						_obj.tools.alertLeave();
+						if(txt=='callback') suc && suc();
+					})
+				},
+				data : {
+					toDouble : function(n){ //单数转双数(1转01)
+						n = n + '';
+						if(n.length==1) n = '0' + n;
+						return n;
+					},
+					arrayRemove : function(list,s){
+						var lb=[],
+							x = list.indexOf(s)
+						;
+						for(var i in list){
+							if(i!=x) lb.push(list[i]) 
+						}
+						return lb;
+					},
+				},
+				time : {
+					getStrTime : function(d){ //获取时间字符串。返回值，例：2000-01-01 00:00:00。接收参数，例：{con:['-','-',' ',':',':',' '],now: new Date()}
+						var toDouble = _obj.tools.data.toDouble,
+							d = d || {},
+							con = d.con || ['-','-',' ',':',':',' '],
+							now = d.now || new Date(),
+							year = now.getFullYear(),
+							month = toDouble(now.getMonth()+1),
+							day = toDouble(now.getDate()),
+							hours = toDouble(now.getHours()),
+							minutes = toDouble(now.getMinutes()),
+							seconds = toDouble(now.getSeconds()),
+							clock = ''
+						;
+						if(con[0]!='') clock += year + con[0];
+						if(con[1]!='') clock += month + con[1];
+						if(con[2]!='') clock += day + con[2];
+						if(con[3]!='') clock += hours + con[3];
+						if(con[4]!='') clock += minutes + con[4];
+						if(con[5]!='') clock += seconds + con[5];
+						return clock;
+					},
+				},
 			},
 			init : function(conf){ //初始化
 				_obj = this;
 				_obj.conf = conf || {};
 				_obj.func(window);
 				_obj.mvvm($(document));
-				_obj.tools.getSize(_obj.conf.size);
+				//_obj.tools.getSize(_obj.conf.size);
 				if(typeof(PIE)!='undefined'){
 					$('.pie').each(function() {  
 						PIE.attach(this);  

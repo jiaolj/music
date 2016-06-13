@@ -30,10 +30,10 @@ define({
 					</div>\
 				</div>\
 				<div class="toolBar">\
-					<nav>\
-						<span><p><button class="button-green checks" rel="callback" type="button"><i class="fa fa-check"></i>确定</button></p>\
-						<p><button class="button-green closes" rel="" type="button"><i class="fa fa-close"></i> 取消</button></p></span>\
-					</nav>\
+					<nav><span>\
+						<a class="button-green checks" rel="callback" type="button"><i class="fa fa-check"></i>确定</a>\
+						<a class="button-green closes" rel="" type="button"><i class="fa fa-close"></i> 取消</a>\
+					</span></nav>\
 				</div>\
 			</div>\
 		',

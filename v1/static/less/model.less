@@ -35,6 +35,14 @@
 .bs(@c:#ccc,@x:0,@y:2px,@z:3px){  //阴影
 	box-shadow: @x @y @z @c;
 }
+.bs-alert() {
+	box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+}
+.round(@d:50%){
+	border-radius:@d;
+	.psr;.zi;
+	behavior:url(/static/js/pie.htc)
+}
 .gradient(@a,@b){ //渐变
 	background: -webkit-gradient(linear, 0 0, 0 70%, from(@a), to(@b));
     background: -moz-linear-gradient(@a, @b 70%);
@@ -80,6 +88,24 @@
 	text-overflow : ellipsis; 
 	white-space : nowrap; 
 	overflow : hidden; 
+}
+//按钮
+.buttons(){
+	.h(24px);
+    .pd(2px 8px);
+    .br(3px);
+	.bg(rgba(0,0,0,0));
+	.csr;
+}
+.button-color(@b,@c:#fff) {
+	.buttons;
+	.c(@b);
+	.bd(@b);
+	&:hover {
+		.bd(@b);
+		.bg(@b);
+		.c(@c);
+	}
 }
 
 //下面常用于手机自适应
