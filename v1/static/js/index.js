@@ -21,6 +21,11 @@ require(['jquery','base','jfa','echarts','cookie'], function($,Base,Jfa,ec) {
 						htm += temp;
 					}
 					return htm;
+				}).find('td.sname').click(function(){
+					var o = $(this),
+						tr = o.parent(),
+						sid = tr.attr('sid');
+					log(sid);
 				});
 				if(Jfa.page.status==0){
 					Jfa.page.init({
@@ -49,11 +54,11 @@ require(['jquery','base','jfa','echarts','cookie'], function($,Base,Jfa,ec) {
 					temp : {
 						music : {
 							head : '<tr><th>歌名</th><th>歌手</th><th>专辑</th><th>热度</th></tr>',
-							body : '<tr><td>1</td><td>2</td><td>3</td><td>4</td></tr>',
+							body : '<tr><td>十年</td><td>陈奕迅</td><td>十年</td><td>9</td></tr>',
 						},
 						singer : {
 							head : '<tr><th>歌手</th><th>热度</th></tr>',
-							body : '<tr><td>1</td><td>2</td></tr>',
+							body : '<tr sid="1"><td class="name sname">陈奕迅</td><td>9</td></tr>',
 						}
 					},
 					query : {
@@ -93,12 +98,14 @@ require(['jquery','base','jfa','echarts','cookie'], function($,Base,Jfa,ec) {
 					size:(100/1920),
 					callback : {
 						menu1 : function(o){
-							var txt = o.attr('t');
+							var tp = o.attr('t');
+							_obj.conf.tp = tp;
+							_obj.query();
 							$('.leftbox').addClass('active');
 							$('.cntbox').removeClass('active');
 							Jfa.html($('nav.menus'),function(){
 								var htm = '<div jui-click="active" jui-tar="p" jui-callback="menu2">';
-								$.each(_obj.conf.menus[txt],function(k,j){
+								$.each(_obj.conf.menus[tp],function(k,j){
 									htm += '<p>'+j+'</p>';
 								})
 								return htm+'</div>';
@@ -107,6 +114,8 @@ require(['jquery','base','jfa','echarts','cookie'], function($,Base,Jfa,ec) {
 						menu2 : function(o){
 							var txt = o.text();
 							$('.cntbox').addClass('active');
+							$('.pagelist').empty();
+							Jfa.page.status = 0;
 							Jfa.html($('.types'),function(){
 								var htm = '<dl jui-click="active" jui-tar="p" jui-callback="menu3">';
 								$.each(_obj.conf.menus.sons[txt],function(k,j){

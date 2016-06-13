@@ -101,6 +101,12 @@ section .leftbox .cntbox table th {
 section .leftbox .cntbox table th {
   font-weight: 900;
 }
+section .leftbox .cntbox table td.name {
+  cursor: pointer;
+}
+section .leftbox .cntbox table td.name:hover {
+  color: #3487d4;
+}
 section .leftbox .cntbox .types {
   display: none;
 }
