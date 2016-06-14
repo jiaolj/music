@@ -80,7 +80,7 @@ def singer_get(req):
         if lk==3:
             sex = kwd[2:3]
             nationality = kwd[:2]
-            rs = Singer.objects.filter(singer_sex=sex)#,singer_nationality__contains=nationality
+            rs = Singer.objects.filter(singer_sex=sex,singer_nationality__contains=nationality)
         if lk==4:
             rs = Singer.objects.filter(singer_style__contains=kwd)
     else:
