@@ -6,11 +6,12 @@
 <title>音乐系统</title>
 <link href="/css/jfa.css" rel="stylesheet" />
 <link href="/css/base.css" rel="stylesheet" />
-<link href="css/font-awesome.min.css" rel="stylesheet" />
-<link href="css/index.css" rel="stylesheet" />
+<link href="/css/font-awesome.min.css" rel="stylesheet" />
+<link href="/css/index.css" rel="stylesheet" />
 <link rel="shortcut icon" href="/favicon.ico" />
+<script src="/js/dist/echarts-all.js"></script>
 <!--[if lte IE 7]>
-<link href="/css/ie/ie7.css" rel="stylesheet">
+<link href="/css/ie/ie7.css" rel="stylesheet" />
 <![endif]-->
 <!--[if lt IE 11]>
 <script src="/js/ie/PIE.js" ></script>
@@ -37,26 +38,32 @@
 			<div class="sdetail">
 				<a class="close">×</a>
 				<dl>
-					<dt>陈奕迅</dt>
-					<dt>性别：</dt>
-					<dt>地区：</dt>
-					<dt>风格：</dt>
-					<dt>热门专辑：</dt>
-					<dt>热门歌曲：</dt>
+					<dt><b><span class="name"></span></b></dt>
+					<dt><b>性别</b>：<span class="sex"></span></dt>
+					<dt><b>地区</b>：<span class="nationality"></span></dt>
+					<dt><b>风格</b>：<span class="style"></span></dt>
+					<dt><b>热门专辑</b>：<span class="album"></span></dt>
+					<dt><b>热门歌曲</b>：<span class="song"></span></dt>
 				</dl>
 				<div class="chart" id="schart"></div>
 			</div>
 			<div class="mdetail">
 				<a class="close">×</a>
 				<dl>
-					<dt>歌名</dt>
-					<dt>演唱者：</dt>
-					<dt>专辑：</dt>
-					<dt>语言：</dt>
-					<dt>风格：</dt>
-					<dt>标签：</dt>
+					<dt><b>歌名</b>：<span class="name"></span></dt>
+					<dt><b>演唱者</b>：<span class="singer"></span></dt>
+					<dt><b>专辑</b>：<span class="album"></span></dt>
+					<dt><b>语言</b>：<span class="language"></span></dt>
+					<dt><b>风格</b>：<span class="style"></span></dt>
+					<dt><b>标签</b>：<span class="tag"></span></dt>
 				</dl>
 				<div class="chart" id="mchart"></div>
+			</div>
+			<div class="ndetail">
+				<a class="close">×</a>
+				<h2></h2>
+				<div class="date"></div>
+				<div class="abstr"></div>
 			</div>
 			<table>
 				<thead id="thead"></thead>
@@ -71,18 +78,7 @@
 		</div>
 		<div class="box">
 			<div class="title">新闻动态</div>
-			<dl class="news">
-				<dt>新闻动态1</dt>
-				<dt>新闻动态1</dt>
-				<dt>新闻动态1</dt>
-				<dt>新闻动态1</dt>
-				<dt>新闻动态1</dt>
-				<dt>新闻动态1</dt>
-				<dt>新闻动态1</dt>
-				<dt>新闻动态1</dt>
-				<dt>新闻动态1</dt>
-				<dt>新闻动态1</dt>
-			</dl>
+			<dl class="news" id="news"></dl>
 		</div>
 		<div class="pages">
 			<img d="-1" src="img/pg-up.png"/><img d="1" src="img/pg-down.png"/> 第 <span>1</span> 页

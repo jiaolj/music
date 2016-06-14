@@ -7,8 +7,23 @@ define(['jquery','dom'],function($,Dom){
 				_obj.mvvm(o);
 			},
 			func : function(w){
-				String.prototype.replaceAll = function(s1,s2){ 
-					return this.replace(new RegExp(s1,'gm'),s2); 
+				Function.prototype.method = function(name, func) { //js函数扩展通用方法
+				  this.prototype[name] = func;  
+				  return this;  
+				}
+				String.method('replaceAll',function(a,b){ //全部替换(扩展)
+					return this.replace(new RegExp(a,'gm'),b); 
+				})
+				if(!String.prototype.trim){
+					String.method('trim', function() {  
+						return this.replace(/^\s+|\s+$/g, '') //去掉文本两头空格(扩展)
+					})
+					String.method('ltrim', function() {  
+						return this.replace(/^\s+/g, '') //去掉文本左边空格(扩展)
+					})
+					String.method('rtrim', function() {  
+						return this.replace(/\s+$/g, '')  //去掉文本右边空格(扩展)
+					})
 				}
 				w.log = function(d){
 					if(typeof(console)=='undefined') alert(d);
@@ -61,15 +76,22 @@ define(['jquery','dom'],function($,Dom){
 							_i.suc((_i.page-1)*_i.every,_i.every);
 						});
 					},
-					status : 0,
+					state : 0,
+					hide : function(){
+						_i.dom.addClass('hide');
+					},
+					show : function(){
+						_i.dom.removeClass('hide');
+					},
 					empty : function(){
 						_i.dom.empty();
-						_o.status = 0;
+						_i.dom.removeClass('hide');
+						_o.state = 0;
 					},
 					init : function(arg){
 						_o = this;
 						_i = arg;
-						_o.status = 1;
+						_o.state = 1;
 						_o.pgl = _i.pgl || 3;
 						_o.pgr = _i.pgr || 4;
 						_i.page = 1;
@@ -193,7 +215,7 @@ define(['jquery','dom'],function($,Dom){
 						_obj.jui.cover.hide();
 					})
 				},
-				login : function(suc){
+				login : function(suc,arg){
 					_obj.jui.cover.show();
 					_obj.jui.alert.show().html(Dom.alert.login).css({top:'-'+_obj.jui.alert[0].clientHeight+'px'}).animate({top:'10%'},function(){
 						$(this).find('input[name="username"]').focus();
@@ -207,7 +229,7 @@ define(['jquery','dom'],function($,Dom){
 						suc && suc();
 					})
 					_obj.jui.alert.find('a.closes').click(function(){
-						_obj.tools.alertLeave();
+						if(!arg) _obj.tools.alertLeave();
 					})
 				},
 				confirm : function(msg,suc){

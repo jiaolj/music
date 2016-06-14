@@ -9,6 +9,7 @@ INSTALLED_APPS = (
     #'django.contrib.sessions',
     #'django.contrib.messages',
     'django.contrib.staticfiles',
+    'customTags',
     'corsheaders',
     'models',
     'tools',
@@ -26,7 +27,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = (
     'localhost',
 )
-ROOT_URLCONF = 'init.urls'
+ROOT_URLCONF = 'conf.urls'
 LANGUAGE_CODE = 'zh-cn' 
 DEFAULT_CHARSET = 'UTF-8'
 WSGI_APPLICATION = 'conf.wsgi.application'
@@ -61,3 +62,64 @@ STATICFILES_DIRS = (
 #SESSION_ENGINE = 'django.contrib.sessions.backends.file'
 #SESSION_FILE_PATH = '/var/www/session/'
 #SESSION_COOKIE_AGE=3600*24
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            'datefmt': "%d/%b/%Y %H:%M:%S"
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/django.log',
+            'formatter': 'verbose'
+        },
+        'console': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'django_file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/django.log',
+            'formatter': 'verbose'
+        },
+        'django_console': {
+            'level': 'INFO',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'test_file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/test.log',
+            'formatter': 'verbose'
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['django_file', 'django_console'],
+            'propagate': True,
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
+        },
+        'test': {
+            'handlers': ['test_file', 'console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
+        },
+    }
+}

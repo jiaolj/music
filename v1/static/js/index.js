@@ -4,456 +4,186 @@ require.config({
 		cookie: '../js/jquery.cookie',
 		base: '../js/base',
 		jfa: '../js/jfa',
+		drawe: '../js/drawe',
 		echarts: '../js/echarts.min'
 	}
 })
 
-require(['jquery','base','jfa','echarts','cookie'], function($,Base,Jfa,ec) {
+require(['jquery','base','jfa','drawe','echarts','cookie'], function($,Base,Jfa,Dr,ec) {
 	var Start = (function(){
 		var _obj = {};
 		return {
-			sdetail : function(){
-				var myChart = ec.init(document.getElementById('schart'));
-				var dataBJ = [
-					[1,55,9,56,0.46,18,6,"良"],
-					[2,25,11,21,0.65,34,9,"优"],
-					[3,56,7,63,0.3,14,5,"良"],
-					[4,33,7,29,0.33,16,6,"优"],
-					[5,42,24,44,0.76,40,16,"优"],
-					[6,82,58,90,1.77,68,33,"良"],
-					[7,74,49,77,1.46,48,27,"良"],
-					[8,78,55,80,1.29,59,29,"良"],
-					[9,267,216,280,4.8,108,64,"重度污染"],
-					[10,185,127,216,2.52,61,27,"中度污染"],
-					[11,39,19,38,0.57,31,15,"优"],
-					[12,41,11,40,0.43,21,7,"优"],
-					[13,64,38,74,1.04,46,22,"良"],
-					[14,108,79,120,1.7,75,41,"轻度污染"],
-					[15,108,63,116,1.48,44,26,"轻度污染"],
-					[16,33,6,29,0.34,13,5,"优"],
-					[17,94,66,110,1.54,62,31,"良"],
-					[18,186,142,192,3.88,93,79,"中度污染"],
-					[19,57,31,54,0.96,32,14,"良"],
-					[20,22,8,17,0.48,23,10,"优"],
-					[21,39,15,36,0.61,29,13,"优"],
-					[22,94,69,114,2.08,73,39,"良"],
-					[23,99,73,110,2.43,76,48,"良"],
-					[24,31,12,30,0.5,32,16,"优"],
-					[25,42,27,43,1,53,22,"优"],
-					[26,154,117,157,3.05,92,58,"中度污染"],
-					[27,234,185,230,4.09,123,69,"重度污染"],
-					[28,160,120,186,2.77,91,50,"中度污染"],
-					[29,134,96,165,2.76,83,41,"轻度污染"],
-					[30,52,24,60,1.03,50,21,"良"],
-					[31,46,5,49,0.28,10,6,"优"]
-				];
-
-				var dataGZ = [
-					[1,26,37,27,1.163,27,13,"优"],
-					[2,85,62,71,1.195,60,8,"良"],
-					[3,78,38,74,1.363,37,7,"良"],
-					[4,21,21,36,0.634,40,9,"优"],
-					[5,41,42,46,0.915,81,13,"优"],
-					[6,56,52,69,1.067,92,16,"良"],
-					[7,64,30,28,0.924,51,2,"良"],
-					[8,55,48,74,1.236,75,26,"良"],
-					[9,76,85,113,1.237,114,27,"良"],
-					[10,91,81,104,1.041,56,40,"良"],
-					[11,84,39,60,0.964,25,11,"良"],
-					[12,64,51,101,0.862,58,23,"良"],
-					[13,70,69,120,1.198,65,36,"良"],
-					[14,77,105,178,2.549,64,16,"良"],
-					[15,109,68,87,0.996,74,29,"轻度污染"],
-					[16,73,68,97,0.905,51,34,"良"],
-					[17,54,27,47,0.592,53,12,"良"],
-					[18,51,61,97,0.811,65,19,"良"],
-					[19,91,71,121,1.374,43,18,"良"],
-					[20,73,102,182,2.787,44,19,"良"],
-					[21,73,50,76,0.717,31,20,"良"],
-					[22,84,94,140,2.238,68,18,"良"],
-					[23,93,77,104,1.165,53,7,"良"],
-					[24,99,130,227,3.97,55,15,"良"],
-					[25,146,84,139,1.094,40,17,"轻度污染"],
-					[26,113,108,137,1.481,48,15,"轻度污染"],
-					[27,81,48,62,1.619,26,3,"良"],
-					[28,56,48,68,1.336,37,9,"良"],
-					[29,82,92,174,3.29,0,13,"良"],
-					[30,106,116,188,3.628,101,16,"轻度污染"],
-					[31,118,50,0,1.383,76,11,"轻度污染"]
-				];
-
-				var dataSH = [
-					[1,91,45,125,0.82,34,23,"良"],
-					[2,65,27,78,0.86,45,29,"良"],
-					[3,83,60,84,1.09,73,27,"良"],
-					[4,109,81,121,1.28,68,51,"轻度污染"],
-					[5,106,77,114,1.07,55,51,"轻度污染"],
-					[6,109,81,121,1.28,68,51,"轻度污染"],
-					[7,106,77,114,1.07,55,51,"轻度污染"],
-					[8,89,65,78,0.86,51,26,"良"],
-					[9,53,33,47,0.64,50,17,"良"],
-					[10,80,55,80,1.01,75,24,"良"],
-					[11,117,81,124,1.03,45,24,"轻度污染"],
-					[12,99,71,142,1.1,62,42,"良"],
-					[13,95,69,130,1.28,74,50,"良"],
-					[14,116,87,131,1.47,84,40,"轻度污染"],
-					[15,108,80,121,1.3,85,37,"轻度污染"],
-					[16,134,83,167,1.16,57,43,"轻度污染"],
-					[17,79,43,107,1.05,59,37,"良"],
-					[18,71,46,89,0.86,64,25,"良"],
-					[19,97,71,113,1.17,88,31,"良"],
-					[20,84,57,91,0.85,55,31,"良"],
-					[21,87,63,101,0.9,56,41,"良"],
-					[22,104,77,119,1.09,73,48,"轻度污染"],
-					[23,87,62,100,1,72,28,"良"],
-					[24,168,128,172,1.49,97,56,"中度污染"],
-					[25,65,45,51,0.74,39,17,"良"],
-					[26,39,24,38,0.61,47,17,"优"],
-					[27,39,24,39,0.59,50,19,"优"],
-					[28,93,68,96,1.05,79,29,"良"],
-					[29,188,143,197,1.66,99,51,"中度污染"],
-					[30,174,131,174,1.55,108,50,"中度污染"],
-					[31,187,143,201,1.39,89,53,"中度污染"]
-				];
-
-				var schema = [
-					{name: 'date', index: 0, text: '日'},
-					{name: 'AQIindex', index: 1, text: 'AQI指数'},
-					{name: 'PM25', index: 2, text: 'PM2.5'},
-					{name: 'PM10', index: 3, text: 'PM10'},
-					{name: 'CO', index: 4, text: '一氧化碳（CO）'},
-					{name: 'NO2', index: 5, text: '二氧化氮（NO2）'},
-					{name: 'SO2', index: 6, text: '二氧化硫（SO2）'}
-				];
-
-
-				var itemStyle = {
-					normal: {
-						opacity: 0.8,
-						shadowBlur: 10,
-						shadowOffsetX: 0,
-						shadowOffsetY: 0,
-						shadowColor: 'rgba(0, 0, 0, 0.5)'
+			sdetail : function(name){
+				$.ajax({
+					url : '/singer/get',
+					data : {name:name},
+					success : function(back){
+						log(back);
+						if(back.state=='ok'){
+							var j = back.data[0];
+							$('.sdetail span.name').text(j.name);
+							$('.sdetail span.sex').text(j.sex);
+							$('.sdetail span.nationality').text(j.nationality);
+							$('.sdetail span.style').text(j.style);
+							$('.sdetail span.album').text(j.album);
+							$('.sdetail span.song').text(j.song);
+						}
 					}
-				};
-
-				var option = {
-					backgroundColor: '#333',
-					color: [
-						'#dd4444', '#fec42c', '#80F1BE'
-					],
-					legend: {
-						y: 'top',
-						data: ['北京', '上海', '广州'],
-						textStyle: {
-							color: '#fff',
-							fontSize: 16
-						}
-					},
-					grid: {
-						x: '10%',
-						x2: 150,
-						y: '18%',
-						y2: '10%'
-					},
-					tooltip: {
-						padding: 10,
-						backgroundColor: '#222',
-						borderColor: '#777',
-						borderWidth: 1,
-						formatter: function (obj) {
-							var value = obj.value;
-							return '<div style="border-bottom: 1px solid rgba(255,255,255,.3); font-size: 18px;padding-bottom: 7px;margin-bottom: 7px">'
-								+ obj.seriesName + ' ' + value[0] + '日：'
-								+ value[7]
-								+ '</div>'
-								+ schema[1].text + '：' + value[1] + '<br>'
-								+ schema[2].text + '：' + value[2] + '<br>'
-								+ schema[3].text + '：' + value[3] + '<br>'
-								+ schema[4].text + '：' + value[4] + '<br>'
-								+ schema[5].text + '：' + value[5] + '<br>'
-								+ schema[6].text + '：' + value[6] + '<br>';
-						}
-					},
-					xAxis: {
-						type: 'value',
-						name: '日期',
-						nameGap: 16,
-						nameTextStyle: {
-							color: '#fff',
-							fontSize: 14
-						},
-						max: 31,
-						splitLine: {
-							show: false
-						},
-						axisLine: {
-							lineStyle: {
-								color: '#777'
-							}
-						},
-						axisTick: {
-							lineStyle: {
-								color: '#777'
-							}
-						},
-						axisLabel: {
-							formatter: '{value}',
-							textStyle: {
-								color: '#fff'
-							}
-						}
-					},
-					yAxis: {
-						type: 'value',
-						name: 'AQI指数',
-						nameLocation: 'end',
-						nameGap: 20,
-						nameTextStyle: {
-							color: '#fff',
-							fontSize: 16
-						},
-						axisLine: {
-							lineStyle: {
-								color: '#777'
-							}
-						},
-						axisTick: {
-							lineStyle: {
-								color: '#777'
-							}
-						},
-						splitLine: {
-							show: false
-						},
-						axisLabel: {
-							textStyle: {
-								color: '#fff'
-							}
-						}
-					},
-					visualMap: [
-						{
-							left: 'right',
-							top: '10%',
-							dimension: 2,
-							min: 0,
-							max: 250,
-							itemWidth: 30,
-							itemHeight: 120,
-							calculable: true,
-							precision: 0.1,
-							text: ['圆形大小：PM2.5'],
-							textGap: 30,
-							textStyle: {
-								color: '#fff'
-							},
-							inRange: {
-								symbolSize: [10, 70]
-							},
-							outOfRange: {
-								symbolSize: [10, 70],
-								color: ['rgba(255,255,255,.2)']
-							},
-							controller: {
-								inRange: {
-									color: ['#c23531']
-								},
-								outOfRange: {
-									color: ['#444']
-								}
-							}
-						},
-						{
-							left: 'right',
-							bottom: '5%',
-							dimension: 6,
-							min: 0,
-							max: 50,
-							itemHeight: 120,
-							calculable: true,
-							precision: 0.1,
-							text: ['明暗：二氧化硫'],
-							textGap: 30,
-							textStyle: {
-								color: '#fff'
-							},
-							inRange: {
-								colorLightness: [1, 0.5]
-							},
-							outOfRange: {
-								color: ['rgba(255,255,255,.2)']
-							},
-							controller: {
-								inRange: {
-									color: ['#c23531']
-								},
-								outOfRange: {
-									color: ['#444']
-								}
-							}
-						}
-					],
-					series: [
-						{
-							name: '北京',
-							type: 'scatter',
-							itemStyle: itemStyle,
-							data: dataBJ
-						},
-						{
-							name: '上海',
-							type: 'scatter',
-							itemStyle: itemStyle,
-							data: dataSH
-						},
-						{
-							name: '广州',
-							type: 'scatter',
-							itemStyle: itemStyle,
-							data: dataGZ
-						}
-					]
-				};
-				myChart.setOption(option);
-			},
-			mdetail : function(){
-				var myChart = ec.init(document.getElementById('mchart'));
-				var option = {
-					title: {
-						text: '动态数据',
-						subtext: '纯属虚构'
-					},
-					tooltip: {
-						trigger: 'axis'
-					},
-					legend: {
-						data:['最新成交价', '预购队列']
-					},
-					toolbox: {
-						show: true,
-						feature: {
-							dataView: {readOnly: false},
-							restore: {},
-							saveAsImage: {}
-						}
-					},
-					dataZoom: {
-						show: false,
-						start: 0,
-						end: 100
-					},
-					xAxis: [
-						{
-							type: 'category',
-							boundaryGap: true,
-							data: (function (){
-								var now = new Date();
-								var res = [];
-								var len = 10;
-								while (len--) {
-									res.unshift(now.toLocaleTimeString().replace(/^\D*/,''));
-									now = new Date(now - 2000);
-								}
-								return res;
-							})()
-						},
-						{
-							type: 'category',
-							boundaryGap: true,
-							data: (function (){
-								var res = [];
-								var len = 10;
-								while (len--) {
-									res.push(len + 1);
-								}
-								return res;
-							})()
-						}
-					],
-					yAxis: [
-						{
-							type: 'value',
-							scale: true,
-							name: '价格',
-							max: 20,
-							min: 0,
-							boundaryGap: [0.2, 0.2]
-						},
-						{
-							type: 'value',
-							scale: true,
-							name: '预购量',
-							max: 1200,
-							min: 0,
-							boundaryGap: [0.2, 0.2]
-						}
-					],
-					series: [
-						{
-							name:'预购队列',
-							type:'bar',
-							xAxisIndex: 1,
-							yAxisIndex: 1,
-							data:(function (){
-								var res = [];
-								var len = 10;
-								while (len--) {
-									res.push(Math.round(Math.random() * 1000));
-								}
-								return res;
-							})()
-						}
-					]
-				};
-				myChart.setOption(option);
-			},
-			query : function(kwd){
-				$('#thead').html(_obj.conf.temp[_obj.conf.tp].head);
-				$('#tbody').html(function(){
-					var htm = '',
-						temp = _obj.conf.temp[_obj.conf.tp].body;
-					for(var i = 0;i<10;i++){
-						htm += temp;
-					}
-					return htm;
 				})
-				$('#tbody').find('td.sname').click(function(){
-					var o = $(this),
-						tr = o.parent(),
-						sid = tr.attr('sid');
-					Jfa.page.empty();
-					$('.cntbox').attr('s','2');
-					_obj.sdetail();
-				});
-				$('#tbody').find('td.mname').click(function(){
-					var o = $(this),
-						tr = o.parent(),
-						mid = tr.attr('mid');
-					Jfa.page.empty();
-					$('.cntbox').attr('s','3');
-					_obj.mdetail();
-				});
-				if(Jfa.page.status==0){
-					Jfa.page.init({
-						dom : $('.pagelist'),
-						count : 100,
-						every : 10,
-						suc : function(fromNum,limitNum){
-							_obj.conf.page.f = fromNum;
-							_obj.conf.page.l = limitNum;
-							_obj.query();
+				$.ajax({
+					url : '/singer/chart',
+					success : function(back){
+						if(back.state=='ok'){
+							Dr.getNet('schart',back.data);
 						}
-					})
-				}
+					}
+				})
+			},
+			mdetail : function(name){
+				$.ajax({
+					url : '/song/get',
+					data : {name:name},
+					success : function(back){
+						log(back);
+						if(back.state=='ok'){
+							var j = back.data[0];
+							$('.mdetail span.name').text(j.name);
+							$('.mdetail span.singer').text(j.singer);
+							$('.mdetail span.album').text(j.album);
+							$('.mdetail span.language').text(j.language);
+							$('.mdetail span.style').text(j.style);
+							$('.mdetail span.tag').text(j.tag);
+						}
+					}
+				})
+				$.ajax({
+					url : '/song/chart',
+					success : function(back){
+						if(back.state=='ok'){
+							Dr.getBar('mchart',back.data);
+						}
+					}
+				})
+			},
+			getSong : function(url){
+				$.ajax({
+					url : url,
+					data : {f:_obj.conf.page.f,l:_obj.conf.page.l},
+					success : function(back){
+						log(back);
+						if(back.state=='ok'){
+							$('#thead').html(_obj.conf.temp[_obj.conf.tp].head);
+							$('#tbody').html(function(){
+								var htm = '',
+									temp = _obj.conf.temp[_obj.conf.tp].body;
+								$.each(back.data,function(k,j){
+									htm += temp.replace('#name',j.name).replace('#singer',j.singer).replace('#album',j.album).replace('#heat',j.heat);
+								})
+								return htm;
+							})
+							$('#tbody').find('td.mname').click(function(){
+								var o = $(this),
+									mname = o.text();
+								Jfa.page.hide();
+								$('.cntbox').attr('s','3');
+								_obj.mdetail(mname);
+							});
+							if(Jfa.page.state==0){
+								Jfa.page.init({
+									dom : $('.pagelist'),
+									count : back.count,
+									every : 10,
+									suc : function(fromNum,limitNum){
+										_obj.conf.page.f = fromNum;
+										_obj.conf.page.l = limitNum;
+										_obj.getSong(url);
+									}
+								})
+							}
+						}
+					}
+				})
+			},
+			getSinger : function(kwd){
+				$.ajax({
+					url : '/singer/get',
+					data : {f:_obj.conf.page.f,l:_obj.conf.page.l,kwd:kwd},
+					success : function(back){
+						log(back);
+						if(back.state=='ok'){
+							$('.cntbox').attr('s','1');
+							Jfa.html($('.types'),function(){
+								var htm = '<dl jui-click="active" jui-tar="a" jui-callback="menu4">';
+								$.each(back.data,function(k,j){
+									htm += '<dt><a>'+j.name+'</a></dt>';
+								})
+								return htm+'</div>';
+							})
+							$('.types').css('line-height',$('.types')[0].clientHeight/(parseInt((back.data.length-1)/2)+1)+'px');
+							$('.types').find('a').click(function(){
+								var o = $(this),
+									sname = o.text();
+								Jfa.page.hide();
+								$('.cntbox').attr('s','2');
+								_obj.sdetail(sname);
+							});
+							if(Jfa.page.state==0){
+								Jfa.page.init({
+									dom : $('.pagelist'),
+									count : back.count,
+									every : _obj.conf.page.l,
+									suc : function(fromNum,limitNum){
+										_obj.conf.page.f = fromNum;
+										_obj.conf.page.l = limitNum;
+										_obj.getSinger(kwd);
+									}
+								})
+							}
+						}
+					}
+				})
+			},
+			getNews : function(){
+				$.ajax({
+					url : '/news/get',
+					success : function(back){
+						log(back);
+						if(back.state=='ok'){
+							$('#news').html(function(){
+								var htm = '';
+								$.each(back.data,function(k,j){
+									htm += '<dt><a pk="'+j.pk+'">'+j.title+'</a><span>'+j.date+'</span></dt>';
+								})
+								return htm;
+							}).find('a').click(function(){
+								var pk = $(this).attr('pk');
+								$('.cntbox').attr('s','4');
+								Jfa.page.empty();
+								$.ajax({
+									url : '/news/get',
+									data : {pk:pk},
+									success : function(back){
+										if(back.state=='ok'){
+											var j = back.data[0];
+											$('.ndetail h2').text(j.title);
+											$('.ndetail .date').text(j.date);
+											$('.ndetail .abstr').html(j.abstr);
+										}
+									}
+								})
+							})
+						}
+					}
+				})
+				_obj.getSong('/song/irecommend');
 			},
 			user : {
 				get : function(){
 					return {username:$.cookie('username'),rank:$.cookie('rank')}
 				},
 				member : [
-					{username:'udms',password:'udms',rank:'1'},
-					{username:'973',password:'973',rank:'0'}
+					{username:'1872',password:'123456',rank:'1'},
+					{username:'udms',password:'udms',rank:'0'}
 				],
 				show : function(suc){
 					if($.cookie('username')){
@@ -476,7 +206,7 @@ require(['jquery','base','jfa','echarts','cookie'], function($,Base,Jfa,ec) {
 								}
 							})
 							if(!$.cookie('username')) $('.msg.login p.error').text('账号或密码错误');
-						});
+						},1);
 					}
 				}
 			},
@@ -485,15 +215,20 @@ require(['jquery','base','jfa','echarts','cookie'], function($,Base,Jfa,ec) {
 					var o = $(this),
 						txt = o.text();
 					if(txt=='登录'){
-						_obj.user.show();
+						_obj.user.show(function(){
+							_obj.getNews();
+						});
 					}
 					else if(txt=='注销'){
 						$.cookie('username','');
 						$.cookie('rank','');
+						location.href = '';
+						/*
 						o.text('登录');
 						$('nav.user>a.reg').text('注册');
 						$('nav.user>span').text('');
 						$('.jui-login-box').addClass('hide');
+						*/
 					}
 				})
 			},
@@ -509,29 +244,11 @@ require(['jquery','base','jfa','echarts','cookie'], function($,Base,Jfa,ec) {
 					temp : {
 						music : {
 							head : '<tr><th>歌名</th><th>歌手</th><th>专辑</th><th>热度</th></tr>',
-							body : '<tr mid="1"><td class="name mname">十年</td><td>陈奕迅</td><td>十年</td><td>9</td></tr>',
+							body : '<tr><td class="name mname">#name</td><td>#singer</td><td>#album</td><td>#heat</td></tr>',
 						},
 						singer : {
 							head : '<tr><th>歌手</th><th>热度</th></tr>',
-							body : '<tr sid="1"><td class="name sname">陈奕迅</td><td>9</td></tr>',
-						}
-					},
-					query : {
-						music : {
-							data : function(){
-								
-							},
-							news : function(){
-								
-							}
-						},
-						singer : {
-							data : function(){
-								
-							},
-							news : function(){
-								
-							}
+							body : '<tr><td class="name sname">陈奕迅</td><td>9</td></tr>',
 						}
 					},
 					menus : {
@@ -539,13 +256,13 @@ require(['jquery','base','jfa','echarts','cookie'], function($,Base,Jfa,ec) {
 						singer:['性别','地区','风格'],
 						sons : {
 							'曲风':['摇滚','乡村','嘻哈','古曲','流行','电子','民谣','爵士'],
-							'心情':['伤感','安静','快乐','舒服','怀旧','甜蜜','寂寞','思念，主题包括热歌','新歌','经典','流行','抒情','动感','港台','内地','欧美','日韩','中国风，场景包括酒吧夜店','咖啡馆','工作学习','开车运动','睡前','校园'],
-							'主题':['1','2','3'],
-							'场景':['4','5','6'],
+							'心情':['伤感','安静','快乐','舒服','怀旧','甜蜜','寂寞','思念'],
+							'主题':['热歌','新歌','经典','流行','抒情','动感','港台','内地','欧美','日韩','中国风'],
+							'场景':['酒吧夜店','咖啡馆','工作学习','开车运动','睡前','校园'],
 							
-							'性别':['男','女'],
-							'地区':['1','2','3'],
-							'风格':['摇滚','乡村','嘻哈'],
+							'性别':['内地男','内地女','港台男','港台女','欧美男','欧美女','日韩男','日韩女'],
+							'地区':['内地','港台','欧美','日韩'],
+							'风格':['国语流行','粤语流行','流行摇滚'],
 						},
 					}
 				};
@@ -555,9 +272,18 @@ require(['jquery','base','jfa','echarts','cookie'], function($,Base,Jfa,ec) {
 						menu1 : function(o){
 							var tp = o.attr('t');
 							_obj.conf.tp = tp;
-							_obj.query();
-							$('.leftbox').addClass('active');
+							_obj.conf.page.f = 0;
+							if(_obj.conf.tp=='music') {
+								_obj.conf.page.l = 10;
+								_obj.getSong('/song/irecommend');
+							}
+							else if(_obj.conf.tp=='singer') {
+								_obj.conf.page.l = 14;
+								_obj.getSinger();
+							}
 							$('.cntbox').attr('s','0');
+							Jfa.page.empty();
+							$('.leftbox').addClass('active');
 							Jfa.html($('nav.menus'),function(){
 								var htm = '<div jui-click="active" jui-tar="p" jui-callback="menu2">';
 								$.each(_obj.conf.menus[tp],function(k,j){
@@ -565,39 +291,85 @@ require(['jquery','base','jfa','echarts','cookie'], function($,Base,Jfa,ec) {
 								})
 								return htm+'</div>';
 							})
+							$('nav.menus').css('line-height',$('nav.menus')[0].clientHeight/_obj.conf.menus[tp].length+'px');
 						},
 						menu2 : function(o){
 							var txt = o.text();
 							$('.cntbox').attr('s','1');
 							Jfa.page.empty();
 							Jfa.html($('.types'),function(){
-								var htm = '<dl jui-click="active" jui-tar="p" jui-callback="menu3">';
+								var htm = '<dl jui-click="active" jui-tar="a" jui-callback="menu3">';
 								$.each(_obj.conf.menus.sons[txt],function(k,j){
 									htm += '<dt><a>'+j+'</a></dt>';
 								})
 								return htm+'</div>';
 							})
+							$('.types').css('line-height',$('.types')[0].clientHeight/(parseInt((_obj.conf.menus.sons[txt].length-1)/2)+1)+'px');
 						},
+						menu3 : function(o){
+							var txt = o.text();
+							$('.cntbox').attr('s','1');
+							_obj.conf.page.f = 0;
+							Jfa.page.empty();
+							if(_obj.conf.tp=='music') {
+								_obj.conf.page.l = 10;
+								_obj.getSong('/song/erecommend');
+							}
+							else if(_obj.conf.tp=='singer') {
+								_obj.conf.page.l = 14;
+								_obj.getSinger(txt);
+							}
+						}
 					}
 				});
 				Base.init();
 				_obj.req = Jfa.tools.getRequest();
-				_obj.query();
 				_obj.bind();
 				if($.cookie('username')){
 					$('nav.user>span').text($.cookie('username'));
-					$('nav.user>a').text('注销');
+					$('nav.user>a.login').text('注销');
+					$('nav.user>a.reg').text('');
+					_obj.getNews();
 				}else{
-					_obj.user.show();
+					_obj.user.show(function(){
+						_obj.getNews();
+					});
 					$('.jui-login-box').addClass('hide');
 				};
-				$('a.close').click(function(){
+				$('.mdetail a.close').click(function(){
 					$('.cntbox').attr('s','0');
+					Jfa.page.show();
+				})
+				$('.sdetail a.close').click(function(){
+					$('.cntbox').attr('s','1');
+					Jfa.page.show();
+				})
+				$('.ndetail a.close').click(function(){
+					$('.cntbox').attr('s','0');
+					Jfa.page.show();
 				})
 				$('.search img').click(function(){
-					var kwd = $('.search img').val().trim();
+					var kwd = $('.search input').val().trim();
 					if(kwd){
-						_obj.query(kwd);
+						$.ajax({
+							url : '/search/',
+							data : {kwd:kwd},
+							success : function(back){
+								if(back.state=='ok'){
+									Jfa.page.hide();
+									
+									if(back.data==1) {
+										$('.cntbox').attr('s','3');
+										_obj.mdetail(kwd);
+									}
+									else {
+										$('.cntbox').attr('s','2');
+										_obj.sdetail(kwd);
+									}
+									
+								}
+							}
+						})
 					}
 				})
 				$('.pages img').click(function(){
