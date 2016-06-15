@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = '#)1_b=*kspc$y!freef-8dbc(e!dl_dpi06kx^3f-7gvc(oms('
@@ -6,23 +7,29 @@ TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = []
 INSTALLED_APPS = (
     #'django.contrib.contenttypes',
-    #'django.contrib.sessions',
+    'django.contrib.sessions', #会话设置
     #'django.contrib.messages',
     'django.contrib.staticfiles',
     'customTags',
     'corsheaders',
     'models',
+    'user',
     'tools',
 )
 MIDDLEWARE_CLASSES = (
-    #'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware', #会话设置
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     #'django.contrib.auth.middleware.AuthenticationMiddleware',
     #'django.contrib.messages.middleware.MessageMiddleware',
     #'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'user.middleware.QtsAuthenticationMiddleware',
 )
+#会话设置
+#SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+#SESSION_COOKIE_AGE=3600*2
+#跨域设置
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = (
     'localhost',
@@ -58,10 +65,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static').replace('\\', '/'),
 )
-#SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
-#SESSION_ENGINE = 'django.contrib.sessions.backends.file'
-#SESSION_FILE_PATH = '/var/www/session/'
-#SESSION_COOKIE_AGE=3600*24
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,

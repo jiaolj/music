@@ -12,5 +12,8 @@ urlpatterns = patterns('views.home',
     url(r'^song/erecommend', 'song_erecommend'),
     url(r'^song/chart', 'song_chart'),
 )
+urlpatterns += patterns('user.home',
+    url(r'^user/get', 'get'),
+)
 #urlpatterns += patterns('',url(r'^static/(?P<path>.*)$', 'django.views.static.serve', { 'document_root': STATIC_ROOT,}),)
 urlpatterns += patterns('',url(r'^(?P<path>.*)$', 'django.views.static.serve', { 'document_root': STATIC_ROOT,}),)

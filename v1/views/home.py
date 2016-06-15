@@ -23,7 +23,7 @@ def news_get(req):
         objs = News.objects.filter(pk=pk)
     else:
         objs = News.objects.all().order_by('-date')[f:f+l]
-    back['data'] = [{'pk':m.pk,'title':m.title,'date':m.date.strftime('%Y-%m-%d %H:%M:%S'),'abstr':m.abstr,'singer':m.singer} for m in objs]
+    back['data'] = [{'pk':m.pk,'title':m.title,'datefull':m.date.strftime('%Y-%m-%d %H:%M:%S'),'date':m.date.strftime('%Y-%m-%d'),'abstr':m.abstr,'singer':m.singer} for m in objs]
     return to_json(back)
 
 def search(req):

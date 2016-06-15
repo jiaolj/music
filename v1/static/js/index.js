@@ -166,7 +166,7 @@ require(['jquery','base','jfa','drawe','echarts','cookie'], function($,Base,Jfa,
 										if(back.state=='ok'){
 											var j = back.data[0];
 											$('.ndetail h2').text(j.title);
-											$('.ndetail .date').text(j.date);
+											$('.ndetail .date').text(j.datefull);
 											$('.ndetail .abstr').html(j.abstr);
 										}
 									}
