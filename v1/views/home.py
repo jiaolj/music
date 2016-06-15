@@ -22,8 +22,8 @@ def news_get(req):
     if pk:
         objs = News.objects.filter(pk=pk)
     else:
-        objs = News.objects.all()[f:f+l]
-    back['data'] = [{'pk':m.pk,'title':m.title,'date':m.date.strftime('%Y-%m-%d'),'abstr':m.abstr,'singer':m.singer} for m in objs]
+        objs = News.objects.all().order_by('-date')[f:f+l]
+    back['data'] = [{'pk':m.pk,'title':m.title,'date':m.date.strftime('%Y-%m-%d %H:%M:%S'),'abstr':m.abstr,'singer':m.singer} for m in objs]
     return to_json(back)
 
 def search(req):
@@ -45,8 +45,8 @@ def song_get(req):
     if name:
         objs = Song.objects.filter(name=name)
     else:
-        objs = Song.objects.all()[f:f+l]
-    back['data'] = [{'pk':m.pk,'name':m.name,'singer':m.singer,'album':m.album,'language':m.language,'style':m.style,'tag':m.theme_tag} for m in objs]
+        objs = Song.objects.all().order_by('-heat')[f:f+l]
+    back['data'] = [{'pk':m.pk,'name':m.name,'singer':m.singer,'album':m.album,'language':m.language,'style':m.style,'heat':m.heat,'tag':m.theme_tag} for m in objs]
     return to_json(back)
 
 def song_chart(req):
@@ -58,11 +58,11 @@ def song_chart(req):
 def singer_chart(req):
     back = {'state':'ok'}
     singer = '陈奕迅'
-    nodes = [{'category':0, 'name': singer, 'value' : 12}]
+    nodes = [{'category':0, 'name': singer, 'value' : 350}]
     links = []
     r = Singers.objects.filter(singer=singer).order_by('-simi')[:18]
     for j in r:
-        nodes.append({'category':0, 'name': j.simiSinger, 'value' : 10})
+        nodes.append({'category':0, 'name': j.simiSinger, 'value' : j.simi})
         links.append({'source' : j.simiSinger, 'target' : singer, 'weight' : j.simi, 'name': '歌手'})
     back['data'] = {'nodes':nodes,'links':links}
     return to_json(back)
@@ -98,7 +98,7 @@ def song_irecommend(req):
     q = req.GET or req.POST
     f = int(q.get('f','0'))
     l = int(q.get('l','10'))
-    rs = IRecommend.objects.all()
+    rs = IRecommend.objects.all().order_by('-iRecommend_similarity')
     back['count'] = rs.count()
     back['data'] = [{'pk':m.pk,'name':m.iRecommend_song,'singer':m.iRecommend_singer,'album':m.iRecommend_album,'heat':m.heat} for m in rs[f:f+l]]
     return to_json(back)
@@ -108,7 +108,7 @@ def song_erecommend(req):
     q = req.GET or req.POST
     f = int(q.get('f','0'))
     l = int(q.get('l','10'))
-    rs = ERecommend.objects.all()
+    rs = ERecommend.objects.all().order_by('-eRecommend_similarity')
     back['count'] = rs.count()
     back['data'] = [{'pk':m.pk,'name':m.eRecommend_song,'singer':m.eRecommend_singer,'album':m.eRecommend_album,'heat':m.heat} for m in rs[f:f+l]]
     return to_json(back)

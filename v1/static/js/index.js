@@ -275,7 +275,7 @@ require(['jquery','base','jfa','drawe','echarts','cookie'], function($,Base,Jfa,
 							_obj.conf.page.f = 0;
 							if(_obj.conf.tp=='music') {
 								_obj.conf.page.l = 10;
-								_obj.getSong('/song/irecommend');
+								_obj.getSong('/song/get');
 							}
 							else if(_obj.conf.tp=='singer') {
 								_obj.conf.page.l = 14;
@@ -295,6 +295,7 @@ require(['jquery','base','jfa','drawe','echarts','cookie'], function($,Base,Jfa,
 						},
 						menu2 : function(o){
 							var txt = o.text();
+							_obj.conf.menu2 = txt;
 							$('.cntbox').attr('s','1');
 							Jfa.page.empty();
 							Jfa.html($('.types'),function(){
@@ -308,16 +309,19 @@ require(['jquery','base','jfa','drawe','echarts','cookie'], function($,Base,Jfa,
 						},
 						menu3 : function(o){
 							var txt = o.text();
-							$('.cntbox').attr('s','1');
+							
 							_obj.conf.page.f = 0;
 							Jfa.page.empty();
+							log(_obj.conf.tp);
 							if(_obj.conf.tp=='music') {
 								_obj.conf.page.l = 10;
 								_obj.getSong('/song/erecommend');
+								$('.cntbox').attr('s','0');
 							}
 							else if(_obj.conf.tp=='singer') {
 								_obj.conf.page.l = 14;
 								_obj.getSinger(txt);
+								$('.cntbox').attr('s','1');
 							}
 						}
 					}
